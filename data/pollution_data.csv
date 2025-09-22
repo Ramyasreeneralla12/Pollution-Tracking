@@ -1,0 +1,7 @@
+
+day,location,AQI,temperature,wind_speed,wind_direction
+1,Delhi,110,30,5,NE
+2,Delhi,115,31,6,NE
+3,Delhi,120,29,7,N
+4,Delhi,125,28,6,NW
+5,Delhi,130,27,5,W
