@@ -39,8 +39,11 @@ function getHealthAdvice(o3, no2) {
   }
 }
 
+// ✅ Use deployed backend URL
+const backendURL = 'https://pollution-tracking-1.onrender.com'; 
+
 // Fetch pollution predictions from backend
-fetch('http://127.0.0.1:5000/predict')
+fetch(`${backendURL}/predict`)
   .then(response => response.json())
   .then(data => {
     data.forEach(entry => {
@@ -50,11 +53,10 @@ fetch('http://127.0.0.1:5000/predict')
       const wind = entry.wind;
       const coords = locations[city];
 
-      if (!coords) return; // skip if location not found
+      if (!coords) return;
 
       const [lat, lon] = coords;
 
-      // Determine circle color based on pollution severity
       let color = 'green';
       if (o3 > 100 || no2 > 80) {
         color = 'red';
@@ -64,7 +66,6 @@ fetch('http://127.0.0.1:5000/predict')
         color = 'yellow';
       }
 
-      // Draw circle for pollution level
       L.circle([lat, lon], {
         color: color,
         fillColor: color,
@@ -78,10 +79,9 @@ fetch('http://127.0.0.1:5000/predict')
         <b>Health Advice:</b> ${getHealthAdvice(o3, no2)}
       `);
 
-      // Draw wind arrow
       const angle = windAngles[wind];
       if (angle !== undefined) {
-        const arrowLength = 0.3; // degrees approx
+        const arrowLength = 0.3;
         const dx = arrowLength * Math.cos(angle * Math.PI / 180);
         const dy = arrowLength * Math.sin(angle * Math.PI / 180);
         const latlngs = [[lat, lon], [lat + dy, lon + dx]];
